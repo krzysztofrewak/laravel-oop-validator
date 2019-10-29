@@ -1,0 +1,24 @@
+{
+	"name": "krzysztofrewak/laravel-oop-validator",
+	"type": "library",
+	"description": "Laravel Validator object-oriented wrapper",
+	"keywords": [
+		"framework",
+		"laravel",
+		"validation"
+	],
+	"license": "MIT",
+	"require": {
+		"php": "^7.3",
+		"illuminate/support": "^6.3",
+		"illuminate/validation": "^6.3"
+	},
+	"autoload": {
+		"psr-4": {
+			"KrzysztofRewak\\LaravelOOPValidator\\": "src/"
+		}
+	},
+	"require-dev": {
+		"phpunit/phpunit": "8"
+	}
+}
