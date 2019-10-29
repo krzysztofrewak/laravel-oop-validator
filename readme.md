@@ -1,6 +1,12 @@
 # laravel-oop-validator
 Package was created for Laravel developers who need for some reason object-oriented approach to validation. It basically maps all string rules into easy manageable chained methods. 
 
+## Installation
+Use composer:
+```
+composer require krzysztofrewak/laravel-oop-validator
+```
+
 ## Usage
 Most of the Laravel validation rules were mapped into `Field` methods.
 
