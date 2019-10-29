@@ -24,16 +24,16 @@ class ValidationBuilder
     }
 
     /**
-     * @param string $field
+     * @param string $fieldName
      * @param Closure $lambda
      * @return ValidationBuilder
      */
-    public function validate(string $field, Closure $lambda): ValidationBuilder
+    public function validate(string $fieldName, Closure $lambda): ValidationBuilder
     {
-        $self = $this->createNewField();
-        $lambda->call($self, $self);
+        $field = $this->createNewField();
+        $lambda->call($field, $field);
 
-        $this->rules[$field] = $self->getRules();
+        $this->rules[$fieldName] = $field->getRules();
         return $this;
     }
 

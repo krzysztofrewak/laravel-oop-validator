@@ -70,6 +70,7 @@ use Illuminate\Validation\Rule;
  * @method Contracts\Field requiredWithoutAll(string ...$fields)
  * @method Contracts\Field same(string $field)
  * @method Contracts\Field size(int $value)
+ * @method Contracts\Field sometimes()
  * @method Contracts\Field startsWith(array $values)
  * @method Contracts\Field string()
  * @method Contracts\Field timezone()
@@ -119,6 +120,7 @@ class Field implements Contracts\Field
         $dimensions = Rule::dimensions();
         $closure->call($dimensions, $dimensions);
         $this->rules[] = $dimensions;
+
         return $this;
     }
 
@@ -132,6 +134,7 @@ class Field implements Contracts\Field
         $query = Rule::exists($table);
         $closure->call($query, $query);
         $this->rules[] = $query;
+
         return $this;
     }
 
@@ -177,6 +180,7 @@ class Field implements Contracts\Field
                 if (is_array($argument)) {
                     return implode(",", $argument);
                 }
+
                 return (string)$argument;
             })->toArray();
 
