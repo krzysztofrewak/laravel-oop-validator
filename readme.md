@@ -1,3 +1,5 @@
+![it's more lines of code but I personally think it's also more readable](https://preview.redd.it/p99hzi4u2jv31.png?width=1926&format=png&auto=webp&s=bf632a48f7ce5edce99a02e41be9552fdf13af11)
+
 # laravel-oop-validator
 Package was created for Laravel developers who need for some reason object-oriented approach to validation. It basically maps all string rules into easy manageable chained methods. 
 
