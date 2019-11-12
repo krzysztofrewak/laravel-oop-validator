@@ -24,7 +24,7 @@ final class EmailRuleTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(1, $rules);
-        $this->assertEquals("email", $rules["email"]);
+        $this->assertEquals(["email"], $rules["email"]);
     }
 
     /**
@@ -40,7 +40,7 @@ final class EmailRuleTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(1, $rules);
-        $this->assertEquals("email:rfc", $rules["email"]);
+        $this->assertEquals(["email:rfc"], $rules["email"]);
     }
 
     /**
@@ -56,6 +56,6 @@ final class EmailRuleTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(1, $rules);
-        $this->assertEquals("email:rfc,dns", $rules["email"]);
+        $this->assertEquals(["email:rfc,dns"], $rules["email"]);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace KrzysztofRewak\LaravelOOPValidator\Contracts;
 
 use Closure;
+use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Interface Field
@@ -15,7 +16,7 @@ use Closure;
  * @method Field afterOrEqual(string $date)
  * @method Field alphabetic()
  * @method Field alphabeticWithDashes()
- * @method Field alphaNumeric()
+ * @method Field alphanumeric()
  * @method Field array()
  * @method Field bail()
  * @method Field before(string $date)
@@ -24,6 +25,8 @@ use Closure;
  * @method Field boolean()
  * @method Field confirmed()
  * @method Field custom(string $rule)
+ * @method Field customRule(Rule $rule)
+ * @method Field customCallback(Closure $closure)
  * @method Field date()
  * @method Field dateEquals(string $date)
  * @method Field dateFormat(string $format)
@@ -71,6 +74,7 @@ use Closure;
  * @method Field requiredWithoutAll(string ...$fields)
  * @method Field same(string $field)
  * @method Field size(int $value)
+ * @method Field sometimes()
  * @method Field startsWith(array $values)
  * @method Field string()
  * @method Field timezone()
@@ -81,7 +85,11 @@ use Closure;
 interface Field
 {
     /**
+     * @return array
+     */
+    public function getRules(): array;
+    /**
      * @return string
      */
-    public function getRules(): string;
+    public function getPipelinedRules(): string;
 }

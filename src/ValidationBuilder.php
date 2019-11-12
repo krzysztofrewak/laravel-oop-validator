@@ -5,22 +5,34 @@ declare(strict_types = 1);
 namespace KrzysztofRewak\LaravelOOPValidator;
 
 use Closure;
+use Illuminate\Support\Collection;
+use KrzysztofRewak\LaravelOOPValidator\Contracts\Field as FieldInterface;
 
 /**
  * Class ValidationBuilder
  * @package KrzysztofRewak\LaravelOOPValidator
  */
-class ValidationBuilder
+class ValidationBuilder implements Contracts\ValidationBuilder
 {
-    /** @var string[] */
-    protected $rules = [];
+    /** @var FieldInterface[]|Collection */
+    protected $rules;
 
     /**
-     * @return array
+     * ValidationBuilder constructor.
+     */
+    public function __construct()
+    {
+        $this->rules = collect();
+    }
+
+    /**
+     * @return Field[]
      */
     public function getRules(): array
     {
-        return $this->rules;
+        return $this->rules->map(function (FieldInterface $field): array {
+            return $field->getRules();
+        })->toArray();
     }
 
     /**
@@ -28,12 +40,12 @@ class ValidationBuilder
      * @param Closure $lambda
      * @return ValidationBuilder
      */
-    public function validate(string $fieldName, Closure $lambda): ValidationBuilder
+    public function validate(string $fieldName, Closure $lambda): Contracts\ValidationBuilder
     {
         $field = $this->createNewField();
         $lambda->call($field, $field);
 
-        $this->rules[$fieldName] = $field->getRules();
+        $this->rules->put($fieldName, $field);
         return $this;
     }
 
@@ -42,7 +54,7 @@ class ValidationBuilder
      * @param Closure $lambda
      * @return ValidationBuilder
      */
-    public function validateEach(string $array, Closure $lambda): ValidationBuilder
+    public function validateEach(string $array, Closure $lambda): Contracts\ValidationBuilder
     {
         $this->validate("$array.*", $lambda);
         return $this;
@@ -54,7 +66,7 @@ class ValidationBuilder
      * @param Closure $lambda
      * @return ValidationBuilder
      */
-    public function validateInEach(string $field, string $array, Closure $lambda): ValidationBuilder
+    public function validateInEach(string $field, string $array, Closure $lambda): Contracts\ValidationBuilder
     {
         $this->validate("$array.*.$field", $lambda);
         return $this;

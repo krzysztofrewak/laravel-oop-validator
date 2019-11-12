@@ -27,6 +27,6 @@ final class DimensionsRuleTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(1, $rules);
-        $this->assertEquals("dimensions:ratio=1.5,width=100", $rules["avatar"]);
+        $this->assertEquals(["dimensions:ratio=1.5,width=100"], $rules["avatar"]);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 use KrzysztofRewak\LaravelOOPValidator\Contracts\Field as FieldContract;
 use KrzysztofRewak\LaravelOOPValidator\Field;
-use KrzysztofRewak\LaravelOOPValidator\ValidationBuilder;
+use KrzysztofRewak\LaravelOOPValidator\PipelinedValidationBuilder;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,12 +17,14 @@ final class ExtendingValidatorTest extends TestCase
      */
     public function testArrayValidation(): void
     {
-        $builder = new class extends ValidationBuilder
+        $builder = new class extends PipelinedValidationBuilder
         {
             protected function createNewField(): FieldContract
             {
-                return new class extends Field {
-                    public function test(): FieldContract {
+                return new class extends Field
+                {
+                    public function test(): FieldContract
+                    {
                         $this->rules[] = "testing";
                         return $this;
                     }

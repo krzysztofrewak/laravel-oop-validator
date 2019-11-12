@@ -24,7 +24,7 @@ final class UsingValidatorTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(1, $rules);
-        $this->assertEquals("array", $rules["field"]);
+        $this->assertEquals(["array"], $rules["field"]);
     }
 
     /**
@@ -40,7 +40,7 @@ final class UsingValidatorTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(1, $rules);
-        $this->assertEquals("array|required", $rules["field"]);
+        $this->assertEquals(["array", "required"], $rules["field"]);
     }
 
     /**
@@ -56,7 +56,7 @@ final class UsingValidatorTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(1, $rules);
-        $this->assertEquals("after:today", $rules["best_before"]);
+        $this->assertEquals(["after:today"], $rules["best_before"]);
     }
 
     /**
@@ -72,7 +72,7 @@ final class UsingValidatorTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(1, $rules);
-        $this->assertEquals("required|string|unique:users,id|uuid", $rules["id"]);
+        $this->assertEquals(["required", "string", "unique:users,id", "uuid"], $rules["id"]);
     }
 
     /**
@@ -94,8 +94,8 @@ final class UsingValidatorTest extends TestCase
         $rules = $builder->getRules();
 
         $this->assertCount(3, $rules);
-        $this->assertEquals("required|integer|unique:users,id", $rules["id"]);
-        $this->assertEquals("required|string", $rules["name"]);
-        $this->assertEquals("required|string|min:6|complicated", $rules["password"]);
+        $this->assertEquals(["required", "integer", "unique:users,id"], $rules["id"]);
+        $this->assertEquals(["required", "string"], $rules["name"]);
+        $this->assertEquals(["required", "string", "min:6", "complicated"], $rules["password"]);
     }
 }

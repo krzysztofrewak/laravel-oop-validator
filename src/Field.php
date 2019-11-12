@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace KrzysztofRewak\LaravelOOPValidator;
 
 use Closure;
+use Illuminate\Contracts\Validation\Rule as RuleContract;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -17,7 +18,7 @@ use Illuminate\Validation\Rule;
  * @method Contracts\Field afterOrEqual(string $date)
  * @method Contracts\Field alphabetic()
  * @method Contracts\Field alphabeticWithDashes()
- * @method Contracts\Field alphaNumeric()
+ * @method Contracts\Field alphanumeric()
  * @method Contracts\Field array()
  * @method Contracts\Field bail()
  * @method Contracts\Field before(string $date)
@@ -81,19 +82,6 @@ use Illuminate\Validation\Rule;
 class Field implements Contracts\Field
 {
     /** @var array */
-    protected const MAPPINGS = [
-        "alphabetic" => "alpha",
-        "alphabetic_with_dashes" => "alpha_dash",
-        "alpha_numeric" => "alpha_num",
-        "greater_than" => "gt",
-        "greater_or_equal_to" => "gte",
-        "less_than" => "lt",
-        "less_or_equal_to" => "lte",
-        "not_regular_expression" => "not_regex",
-        "regular_expression" => "regex",
-    ];
-
-    /** @var array */
     protected $rules = [];
 
     /**
@@ -149,9 +137,37 @@ class Field implements Contracts\Field
     }
 
     /**
+     * @param RuleContract $rule
+     * @return Contracts\Field
+     */
+    public function customRule(RuleContract $rule): Contracts\Field
+    {
+        $this->rules[] = $rule;
+        return $this;
+    }
+
+    /**
+     * @param Closure $closure
+     * @return Contracts\Field
+     */
+    public function customCallback(Closure $closure): Contracts\Field
+    {
+        $this->rules[] = $closure;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return $this->rules;
+    }
+
+    /**
      * @return string
      */
-    public function getRules(): string
+    public function getPipelinedRules(): string
     {
         return implode("|", $this->rules);
     }
@@ -162,8 +178,8 @@ class Field implements Contracts\Field
      */
     protected function mapRuleName(string $rule): string
     {
-        if (in_array($rule, array_keys(static::MAPPINGS))) {
-            return static::MAPPINGS[$rule];
+        if (in_array($rule, array_keys(Dictionaries\MethodMappings::MAPPINGS))) {
+            return Dictionaries\MethodMappings::MAPPINGS[$rule];
         }
 
         return $rule;
