@@ -10,22 +10,24 @@ composer require krzysztofrewak/laravel-oop-validator
 ```
 
 ## Usage
-Most of the Laravel validation rules were mapped into `Field` methods.
+Most of the Laravel validation rules were mapped into `Field` methods. You can use `ValidationBuilder` or `PipelinedValidationBuilder` instances: first one will return rules in arrayed form, second one in string pipeline.
 
-For example code belows will produce validation rules as in comment:
+### Simple rule chains
 ```php
-$validator = new ValidationBuilder();
 $validator->validate("email", function (Field $field): void {
     $field->string()->required()->email(["rfc"])
 });
 
 $validator->getRules();
-// ["email" => "string|required|email:rfc"]
 ```
 
-More complex chain could look like this:
 ```php
-$validator = new ValidationBuilder();
+// for ValidationBuilder: ["email" => ["string", "required", "email:rfc"]]
+// for PipelinedValidationBuilder: ["email" => "string|required|email:rfc"]
+```
+
+### More complex rule chains
+```php
 $validator->validate("avatar", function (Field $field): void {
     $field->required()
         ->mimes(["jpeg", "png"])
@@ -36,9 +38,14 @@ $validator->validate("avatar", function (Field $field): void {
 });
 
 $validator->getRules();
-// ["avatar" => "required|mimes:jpeg,png|unique:users,avatar|dimensions:ratio=1.5"]
 ```
 
+```php
+// for ValidationBuilder: ["avatar" => ["required", "mimes:jpeg,png", "unique:users,avatar", "dimensions:ratio=1.5"]]
+// for PipelinedValidationBuilder: ["avatar" => "required|mimes:jpeg,png|unique:users,avatar|dimensions:ratio=1.5"]
+```
+
+### Nested rules chains
 Nested validation rules could look like this:
 ```php
 $validator = new ValidationBuilder();
@@ -48,9 +55,25 @@ $validator->validateEach("tags", function (Field $field): void {
 $validator->validateInEach("id", "tags", function (Field $field): void {
     $field->required()->exists("tags", "id");
 });
+```
 
-$validator->getRules();
-// ["tags.*:" => "array", "tags.*.id:" => "required|exists:tags,id"]
+```php
+// for ValidationBuilder: ["tags.*:" => ["array"], "tags.*.id:" => ["required", "exists:tags,id"]]
+// for PipelinedValidationBuilder: ["tags.*:" => "array", "tags.*.id:" => "required|exists:tags,id"]
+```
+
+### Custom rules chains
+Custom validation rules could look like this:
+```php
+$validator = new ValidationBuilder();
+$validator->validate("field", function (Field $field): void {
+    $field->required()->customRule(CustomRule::class);
+});
+```
+
+```php
+// for ValidationBuilder: ["field" => ["required", CustomRule::class]]
+// for PipelinedValidationBuilder it will throw NotAllowedRuleException()
 ```
 
 ## Laravel integration
