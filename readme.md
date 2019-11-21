@@ -1,3 +1,5 @@
+[![Latest Stable Version](https://poser.pugx.org/krzysztofrewak/laravel-oop-validator/v/stable)](https://packagist.org/packages/krzysztofrewak/laravel-oop-validator) [![Total Downloads](https://poser.pugx.org/krzysztofrewak/laravel-oop-validator/downloads)](https://packagist.org/packages/krzysztofrewak/laravel-oop-validator) [![License](https://poser.pugx.org/krzysztofrewak/laravel-oop-validator/license)](https://packagist.org/packages/krzysztofrewak/laravel-oop-validator)
+
 ![it's more lines of code but I personally think it's also more readable](https://preview.redd.it/p99hzi4u2jv31.png?width=1926&format=png&auto=webp&s=bf632a48f7ce5edce99a02e41be9552fdf13af11)
 
 # laravel-oop-validator
